@@ -1,0 +1,107 @@
+// PAD1 - Praktikum 3
+// Aufgabe 11
+// 762199
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    char Eingabe;
+    int i;
+    string gesuchtesWort = "TEST";
+    string gesuchtesWortKopie = "";
+    int laenge = gesuchtesWort.size();
+    int Fehlversuche = 5;
+    int counter = 0;
+    bool gefunden = false;
+
+    for(int i = 0; i < laenge; i++)
+    {
+        gesuchtesWortKopie += " ";
+    }
+
+    cout << "Galgenmännchen" << endl << endl;
+    cout << "Wie lautet das gesuchte Wort?" << endl << "Sie dürfen sich " << Fehlversuche << " Fehler erlauben." << endl << "Das Spiel beginnt. Viel Erfolg :^)" << endl << endl;
+
+    while(counter < Fehlversuche) //Anzahl der Fehlversuche - Game Loop
+    {
+        cout << "Eingegebener Buchstabe: ";
+        cin >> Eingabe;
+
+        if (Eingabe == '0') //Abbruch bei Eingabe der '0'
+        {
+            break;
+        }
+
+
+        i = (int)Eingabe; //Char Buchstabe wird als int behandelt (ASCII)
+
+        if (Eingabe >= 97 && Eingabe <= 122) //Umwandlung der Buchstaben
+        {
+            i = i-32;
+            Eingabe = char(i);
+        }
+
+        for(int i = 0; i < laenge; i++)      //Geht jedes mal die komplette Eingabe Buchstabe für Buchstabe durch, falls es eine Übereinstimmung mit dem gesuchten Wort gibt,
+        {                                    //wird die Kopie des Geheimwortes an der Stelle von i (wo der erratete Buchstabe ist), eben mit diesem Buchstaben überschrieben
+            if(Eingabe == gesuchtesWort[i])
+            {
+                gesuchtesWortKopie[i] = Eingabe;
+                gefunden = true;
+            }
+        }
+
+        cout << "Bereits erraten: ";
+
+        if(gefunden)
+        {
+            counter--; //Anzahl der Fehlerversuche bleibt unverändert bei richtiger Eingabe
+            counter++;
+        }
+        else
+        {
+            counter++; //Anzahl der Fehlversuche wird bei falscher Eingabe verändert
+        }
+
+        for (int i = 0; i < laenge; i++) //Ausgabe vom bis dato Erratenem
+        {
+            cout << gesuchtesWortKopie[i] << " ";
+        }
+
+        cout << endl;
+        cout << "                 ";  //Einrückung für die Oberstriche in der nächsten Zeile
+
+        for (int i = 0; i < laenge; i++)
+        {
+            cout << "\u203E "; //Ausgabe der Oberstriche
+        }
+
+        cout << endl;
+
+        gefunden=false;
+
+        cout << "Anzahl der Fehlversuche: " << counter << " von 5" << endl;
+
+        if (gesuchtesWort == gesuchtesWortKopie) //Falls beides übereinstimmt, hat der Spieler gewonnen
+        {
+            cout << "Glückwunsch, Sie haben gewonnen! :)" << endl;
+            cout << endl;
+            return 0;
+        }
+
+        if (counter == Fehlversuche)
+        {
+            cout << endl << "Das Raten hat ein Ende!" << endl;
+            cout << "Sie haben es leider nicht geschafft. Das zu erratende Wort lautete: " << gesuchtesWort << endl;
+        }
+
+        cout << endl;
+
+    }
+
+    cout << endl;
+
+    return 0;
+}
